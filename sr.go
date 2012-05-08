@@ -1,3 +1,4 @@
+// Package signedrequest implements generic signed request logic.
 package signedrequest
 
 import (

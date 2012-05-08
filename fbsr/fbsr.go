@@ -1,3 +1,4 @@
+// Package fbsr implements the standard Facebook signed_request structures.
 package fbsr
 
 import (
