@@ -32,6 +32,7 @@ type SignedRequest struct {
 	Page        *Page     `json:"page,omitempty"`
 	User        *User     `json:"user,omitempty"`
 	UserID      uint64    `json:"user_id,string,omitempty"`
+	AppData     string    `json:"app_data,omitempty"`
 }
 
 // Unmarshal a Facebook signed request.
