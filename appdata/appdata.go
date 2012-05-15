@@ -1,3 +1,7 @@
+// Package appdata implements a HTTP Handler that rewrites the request
+// based on the presense of a signed_request containing app_data. This
+// allows for Page Tabs on facebook.com to dispatch to standard URLs
+// using base64 URL encoded app_data.
 package appdata
 
 import (
@@ -28,14 +32,14 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			} else {
 				r.URL.Path = u.Path
 				r.URL.RawQuery = u.RawQuery
-				r.Method = "get"
+				r.Method = "GET"
 			}
 		}
 	}
 	h.Handler.ServeHTTP(w, r)
 }
 
-// Decode a URL from app_data
+// Decode a URL from app_data.
 func Decode(appData string) (*url.URL, error) {
 	b, err := base64.URLEncoding.DecodeString(appData)
 	if err != nil {
@@ -44,7 +48,7 @@ func Decode(appData string) (*url.URL, error) {
 	return url.ParseRequestURI(string(b))
 }
 
-// Encodes a URL for app_data
+// Encodes a URL for app_data.
 func Encode(u *url.URL) string {
 	return base64.URLEncoding.EncodeToString([]byte(u.RequestURI()))
 }
