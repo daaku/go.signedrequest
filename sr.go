@@ -13,7 +13,7 @@ import (
 
 var (
 	padding = byte('=')
-	dot = byte('.')
+	dot     = byte('.')
 )
 
 // Unmarshal the data from a signed_request and validate the signature.
