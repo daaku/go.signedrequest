@@ -26,8 +26,9 @@ type User struct {
 
 type SignedRequest struct {
 	Algorithm   string    `json:"algorithm"`
-	ExpiresAt   Timestamp `json:"expires"`
 	IssuedAt    Timestamp `json:"issued_at"`
+	ExpiresAt   Timestamp `json:"expires,omitempty"`
+	Code        string    `json:"code,omitempty"`
 	AccessToken string    `json:"oauth_token,omitempty"`
 	Page        *Page     `json:"page,omitempty"`
 	User        *User     `json:"user,omitempty"`
