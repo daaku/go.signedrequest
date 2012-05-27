@@ -2,8 +2,18 @@
 package fbsr
 
 import (
+	"errors"
+	"flag"
 	"github.com/nshah/go.signedrequest"
 	"time"
+)
+
+var (
+	maxAge = flag.Duration(
+		"fbsr.max-age",
+		time.Hour*24,
+		"Max age of signed request to consider it valid.")
+	ErrExpired = errors.New("signed_request has expired.")
 )
 
 type Timestamp int64
@@ -42,6 +52,9 @@ func Unmarshal(data []byte, secret []byte) (*SignedRequest, error) {
 	err := signedrequest.Unmarshal(data, secret, sr)
 	if err != nil {
 		return nil, err
+	}
+	if sr.IssuedAt == 0 || time.Now().After(sr.IssuedAt.Time().Add(*maxAge)) {
+		return nil, ErrExpired
 	}
 	return sr, err
 }

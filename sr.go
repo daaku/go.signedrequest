@@ -12,8 +12,9 @@ import (
 )
 
 var (
-	padding = byte('=')
-	dot     = byte('.')
+	padding             = byte('=')
+	dot                 = byte('.')
+	ErrInvalidSignature = errors.New("Invalid signature")
 )
 
 // Unmarshal the data from a signed_request and validate the signature.
@@ -31,7 +32,7 @@ func Unmarshal(data []byte, secret []byte, v interface{}) error {
 		return fmt.Errorf("Could not generate expected signature: %s", err)
 	}
 	if bytes.Compare(expectedSigBytes, givenSigBytes) != 0 {
-		return errors.New("Invalid signature.")
+		return ErrInvalidSignature
 	}
 	payloadBytes, err := decode(payloadBase64)
 	if err != nil {
