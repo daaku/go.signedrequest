@@ -7,7 +7,6 @@ package appdata
 import (
 	"encoding/base64"
 	"github.com/nshah/go.signedrequest/fbsr"
-	"log"
 	"net/http"
 	"net/url"
 )
@@ -23,13 +22,9 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	rawSr := r.FormValue("signed_request")
 	if rawSr != "" {
 		sr, err := fbsr.Unmarshal([]byte(rawSr), h.Secret)
-		if err != nil {
-			log.Printf("Ignoring error in parsing signed request: %s", err)
-		} else if sr.AppData != "" {
+		if err == nil && sr.AppData != "" {
 			u, err := Decode(sr.AppData)
-			if err != nil {
-				log.Printf("Ignoring error in parsing app data: %s", err)
-			} else {
+			if err == nil {
 				r.URL.Path = u.Path
 				r.URL.RawQuery = u.RawQuery
 				r.Method = "GET"
