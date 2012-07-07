@@ -6,7 +6,7 @@ package appdata
 
 import (
 	"encoding/base64"
-	"github.com/nshah/go.signedrequest/fbsr"
+	"github.com/daaku/go.signedrequest/fbsr"
 	"net/http"
 	"net/url"
 )

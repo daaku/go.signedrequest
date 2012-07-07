@@ -4,7 +4,7 @@ package fbsr
 import (
 	"errors"
 	"flag"
-	"github.com/nshah/go.signedrequest"
+	"github.com/daaku/go.signedrequest"
 	"time"
 )
 
