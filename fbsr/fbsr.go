@@ -19,32 +19,28 @@ var (
 
 type Timestamp int64
 
-type Page struct {
-	ID    uint64 `json:"id,string"`
-	Liked bool   `json:"liked"`
-	Admin bool   `json:"admin"`
-}
-
-type Age struct {
-	Min uint `json:"min,omitempty"`
-}
-
-type User struct {
-	Country string `json:"country,omitempty"`
-	Locale  string `json:"locale,omitempty"`
-	Age     *Age   `json:"age,omitempty"`
-}
-
 type SignedRequest struct {
 	Algorithm   string      `json:"algorithm"`
 	IssuedAt    Timestamp   `json:"issued_at"`
 	ExpiresAt   Timestamp   `json:"expires,omitempty"`
 	Code        string      `json:"code,omitempty"`
 	AccessToken fbapi.Token `json:"oauth_token,omitempty"`
-	Page        *Page       `json:"page,omitempty"`
-	User        *User       `json:"user,omitempty"`
 	UserID      uint64      `json:"user_id,string,omitempty"`
 	AppData     string      `json:"app_data,omitempty"`
+
+	User *struct {
+		Country string `json:"country,omitempty"`
+		Locale  string `json:"locale,omitempty"`
+		Age     *struct {
+			Min uint `json:"min,omitempty"`
+		} `json:"age,omitempty"`
+	} `json:"user,omitempty"`
+
+	Page *struct {
+		ID    uint64 `json:"id,string"`
+		Liked bool   `json:"liked"`
+		Admin bool   `json:"admin"`
+	} `json:"page,omitempty"`
 }
 
 // Unmarshal a Facebook signed request.
