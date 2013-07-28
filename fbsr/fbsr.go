@@ -4,9 +4,9 @@ package fbsr
 import (
 	"errors"
 	"flag"
-	"github.com/daaku/go.fbapi"
-	"github.com/daaku/go.signedrequest"
 	"time"
+
+	"github.com/daaku/go.signedrequest"
 )
 
 var (
@@ -20,13 +20,13 @@ var (
 type Timestamp int64
 
 type SignedRequest struct {
-	Algorithm   string      `json:"algorithm"`
-	IssuedAt    Timestamp   `json:"issued_at"`
-	ExpiresAt   Timestamp   `json:"expires,omitempty"`
-	Code        string      `json:"code,omitempty"`
-	AccessToken fbapi.Token `json:"oauth_token,omitempty"`
-	UserID      uint64      `json:"user_id,string,omitempty"`
-	AppData     string      `json:"app_data,omitempty"`
+	Algorithm   string    `json:"algorithm"`
+	IssuedAt    Timestamp `json:"issued_at"`
+	ExpiresAt   Timestamp `json:"expires,omitempty"`
+	Code        string    `json:"code,omitempty"`
+	AccessToken string    `json:"oauth_token,omitempty"`
+	UserID      uint64    `json:"user_id,string,omitempty"`
+	AppData     string    `json:"app_data,omitempty"`
 
 	User *struct {
 		Country string `json:"country,omitempty"`
