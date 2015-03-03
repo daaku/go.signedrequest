@@ -3,19 +3,12 @@ package fbsr
 
 import (
 	"errors"
-	"flag"
 	"time"
 
 	"github.com/daaku/go.signedrequest"
 )
 
-var (
-	maxAge = flag.Duration(
-		"fbsr.max-age",
-		time.Hour*24,
-		"Max age of signed request to consider it valid.")
-	ErrExpired = errors.New("signed_request has expired.")
-)
+var ErrExpired = errors.New("signed_request has expired.")
 
 type Timestamp int64
 
@@ -44,13 +37,13 @@ type SignedRequest struct {
 }
 
 // Unmarshal a Facebook signed request.
-func Unmarshal(data []byte, secret []byte) (*SignedRequest, error) {
+func Unmarshal(data []byte, secret []byte, maxAge time.Duration) (*SignedRequest, error) {
 	sr := &SignedRequest{}
 	err := signedrequest.Unmarshal(data, secret, sr)
 	if err != nil {
 		return nil, err
 	}
-	if sr.IssuedAt == 0 || time.Now().After(sr.IssuedAt.Time().Add(*maxAge)) {
+	if sr.IssuedAt == 0 || time.Now().After(sr.IssuedAt.Time().Add(maxAge)) {
 		return nil, ErrExpired
 	}
 	return sr, err

@@ -6,22 +6,25 @@ package appdata
 
 import (
 	"encoding/base64"
-	"github.com/daaku/go.signedrequest/fbsr"
 	"net/http"
 	"net/url"
+	"time"
+
+	"github.com/daaku/go.signedrequest/fbsr"
 )
 
 // A handler to allow app_data based request transformation.
 type Handler struct {
 	Handler http.Handler
 	Secret  []byte
+	MaxAge  time.Duration
 }
 
 // Unpacks the URL from app_data if possible.
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	rawSr := r.FormValue("signed_request")
 	if rawSr != "" {
-		sr, err := fbsr.Unmarshal([]byte(rawSr), h.Secret)
+		sr, err := fbsr.Unmarshal([]byte(rawSr), h.Secret, h.MaxAge)
 		if err == nil && sr.AppData != "" {
 			u, err := Decode(sr.AppData)
 			if err == nil {
